@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DMPR TRADERS — Loans & Investments</title>
+    <meta name="description" content="DMPR TRADERS: loans, investments, insurance and financial services" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="brand">
+        <img src="assets/logo.svg" alt="DMPR TRADERS" class="logo" />
+      </div>
+      <nav class="tabs">
+        <button data-target="home" class="tab active">Home</button>
+        <button data-target="info" class="tab">Info</button>
+        <button data-target="enquiry" class="tab">Enquiry</button>
+        <button data-target="facilities" class="tab">Facilities</button>
+        <button data-target="emi" class="tab">Calculator</button>
+        <button data-target="contact" class="tab">Contact</button>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section id="home" class="panel active">
+        <h1>Welcome to DMPR TRADERS</h1>
+        <p>Your partner for loans, investments, and insurance — tailored guidance and quick enquiries.</p>
+      </section>
+
+      <section id="info" class="panel">
+        <h2>About DMPR TRADERS</h2>
+        <p>DMPR TRADERS helps customers find the best loan products, investment options (mutual funds, stocks, gold), and insurance solutions (general, health, term).</p>
+        <h3>Office Address</h3>
+        <address>
+          OPP. BACHAT BHAWAN, A-BLOCK, RANJIT AVENUE,<br />AMRITSAR.143001, PUNJAB
+        </address>
+        <h3>Contact</h3>
+        <p>Phone: 9569611375<br />Email: adv.raghu.vaid@gmail.com</p>
+      </section>
+
+      <section id="enquiry" class="panel">
+        <h2>Enquiry</h2>
+        <form id="enquiryForm" class="form" name="enquiry" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="enquiry" />
+          <label>Name<input name="name" required /></label>
+          <label>Phone<input name="phone" required /></label>
+          <label>Email<input name="email" type="email" /></label>
+          <label>Service of interest
+            <select name="service">
+              <option>Home Loan</option>
+              <option>Personal Loan</option>
+              <option>Car Loan</option>
+              <option>Mutual Funds</option>
+              <option>Stock Investment</option>
+              <option>Gold Investment</option>
+              <option>General Insurance</option>
+              <option>Health Insurance</option>
+              <option>Term Insurance</option>
+            </select>
+          </label>
+          <label>Message<textarea name="message"></textarea></label>
+          <div class="form-actions">
+            <button type="submit" class="btn primary">Send Enquiry</button>
+            <button type="reset" class="btn">Reset</button>
+          </div>
+          <p class="note">Note: This demo does not send emails. Use it to collect and review enquiry data.</p>
+        </form>
+      </section>
+
+      <section id="facilities" class="panel">
+        <h2>Facilities</h2>
+        <div class="facility-grid">
+          <div class="facility-card">
+            <img src="assets/loan.svg" alt="Loans" />
+            <h4>Loans</h4>
+            <p>Home, Personal, Car, Business, SME loans</p>
+          </div>
+          <div class="facility-card">
+            <img src="assets/invest.svg" alt="Investments" />
+            <h4>Investments</h4>
+            <p>Mutual funds, Stocks, Gold, SIPs and portfolio advisory</p>
+          </div>
+          <div class="facility-card">
+            <img src="assets/insurance.svg" alt="Insurance" />
+            <h4>Insurance</h4>
+            <p>General insurance (motor, property, travel), Health and Term insurance</p>
+          </div>
+          <div class="facility-card">
+            <h4>Advisory</h4>
+            <p>Financial planning, tax-efficient investments, and loan structuring</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="emi" class="panel">
+        <h2>Calculators</h2>
+        <div class="calc-tabs">
+          <button class="calc-tab active" data-calc="loan">Loan EMI & Eligibility</button>
+          <button class="calc-tab" data-calc="motor">Motor Insurance</button>
+          <button class="calc-tab" data-calc="sme">SME Insurance</button>
+        </div>
+
+        <div class="calc" id="loanCalc">
+          <div class="calc-left">
+            <label>Total net monthly earning<input id="income" type="number" placeholder="e.g., 50000" /></label>
+            <label>Monthly pension (if any)<input id="pension" type="number" placeholder="e.g., 5000" /></label>
+            <label>Running obligations (monthly)<input id="obligations" type="number" placeholder="e.g., 5000" /></label>
+            <fieldset>
+              <legend>Applicant type</legend>
+              <label><input type="radio" name="type" value="salaried" checked /> Salaried</label>
+              <label><input type="radio" name="type" value="self" /> Self-employed</label>
+            </fieldset>
+            <label>Loan amount<input id="loanAmount" type="number" placeholder="e.g., 500000" /></label>
+            <label>Annual interest rate (%)<input id="rate" type="number" step="0.01" placeholder="e.g., 8.5" /></label>
+            <label>Tenure (years)<input id="tenure" type="number" placeholder="e.g., 5" /></label>
+            <label style="display:flex;align-items:center;gap:12px;"><input id="isCar" type="checkbox" /> Car loan</label>
+            <div style="display:flex;gap:8px;align-items:center;margin:6px 0;">
+              <label style="flex:1;min-width:160px;">FOIR (allowed % of net available for EMI)
+                <input id="foirInput" type="number" min="0" max="100" step="1" value="60" />
+              </label>
+              <button id="setCarFoir" class="btn">Apply Car FOIR 100%</button>
+            </div>
+            <div class="form-actions">
+              <button id="calcBtn" class="btn primary">Calculate Loan</button>
+            </div>
+          </div>
+          <div class="calc-right">
+            <div class="result">
+              <p><strong>Net eligibility:</strong> <span id="eligibility">-</span></p>
+              <p><strong>Monthly EMI:</strong> <span id="emiValue">-</span></p>
+              <p><strong>FOIR used:</strong> <span id="foir">-</span></p>
+              <p id="eligNote" class="note">Enter loan details to compute EMI and eligibility.</p>
+              <label style="display:flex;align-items:center;gap:8px;margin-top:8px;"><input id="showSchedule" type="checkbox" /> Show amortization schedule</label>
+            </div>
+            <div id="amortization" style="margin-top:12px;display:none">
+              <h4>Amortization schedule</h4>
+              <div style="max-height:260px;overflow:auto;background:#fff;border:1px solid #eef4ff;padding:8px;border-radius:8px">
+                <table id="amortTable" style="width:100%;border-collapse:collapse">
+                  <thead><tr><th>#</th><th>Payment</th><th>Interest</th><th>Principal</th><th>Balance</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc" id="motorCalc" style="display:none">
+          <div class="calc-left">
+            <label>Vehicle value (₹)<input id="vehicleValue" type="number" placeholder="e.g., 500000" /></label>
+            <label>Manufacturing year<input id="manufactureYear" type="number" placeholder="e.g., 2020" /></label>
+            <label>Vehicle category
+              <select id="vehicleType">
+                <option value="privateCar">Private Car</option>
+                <option value="twoWheeler">Two-wheeler</option>
+                <option value="goodsVeh">Goods Carrying Vehicle</option>
+                <option value="taxi">Taxi / Cab</option>
+                <option value="bus">Bus</option>
+                <option value="auto">Auto / E-Rickshaw</option>
+              </select>
+            </label>
+            <label>Coverage type
+              <select id="coverageType">
+                <option value="comp">Comprehensive</option>
+                <option value="tp">Third-party</option>
+              </select>
+            </label>
+            <label>Goods vehicle GVW
+              <select id="gvwRange">
+                <option value="u7500">Up to 7500 kg</option>
+                <option value="7500-12000">7500-12000 kg</option>
+                <option value="12000-20000">12000-20000 kg</option>
+                <option value="above20000">Above 20000 kg</option>
+              </select>
+            </label>
+            <label>Taxi type
+              <select id="taxiType">
+                <option value="smallTaxi">Small taxi</option>
+                <option value="suvTaxi">SUV taxi</option>
+              </select>
+            </label>
+            <label>Bus seating capacity<input id="busSeats" type="number" placeholder="e.g., 18" /></label>
+            <label>Base rate (%)<input id="motorBaseRate" type="number" step="0.01" value="3" /></label>
+            <label>Age factor (multiplier — leave 1 to auto-calc)<input id="motorAgeFactor" type="number" step="0.01" value="1" /></label>
+            <label>Discount (%)<input id="motorDiscount" type="number" step="0.1" value="0" /></label>
+            <label>Cubic capacity (cc)<input id="cubicCapacity" type="number" placeholder="e.g., 150" /></label>
+            <label>Insured Declared Value (IDV) — leave blank to auto-calc from vehicle value
+              <input id="idv" type="number" placeholder="e.g., 450000" />
+            </label>
+            <label>NCB (No Claim Bonus %)<input id="ncb" type="number" step="1" value="0" /></label>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap;">
+              <label style="display:flex;align-items:center;gap:8px;"><input id="addonZeroDep" type="checkbox" /> Zero Dep</label>
+              <label style="display:flex;align-items:center;gap:8px;"><input id="addonRoadside" type="checkbox" /> Roadside Assistance</label>
+              <label style="display:flex;align-items:center;gap:8px;"><input id="addonEngine" type="checkbox" /> Engine Protection</label>
+            </div>
+            <div class="form-actions"><button id="motorCalcBtn" class="btn primary">Estimate Motor Premium</button></div>
+          </div>
+          <div class="calc-right">
+            <div class="result">
+              <p><strong>Estimated premium (incl. GST):</strong> <span id="motorResult">-</span></p>
+              <div id="motorBreakdown" style="margin-top:8px;font-size:13px"></div>
+              <p class="note">Breakdown shows IDV, base premium, add-ons, NCB, and GST.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc" id="smeCalc" style="display:none">
+          <div class="calc-left">
+            <label>Sum insured / Total insured value (₹)<input id="smeSumInsured" type="number" placeholder="e.g., 2000000" /></label>
+            <label>Policy type
+              <select id="smePolicyType">
+                <option value="fire">Fire & Special Perils</option>
+                <option value="marine">Marine Cargo / Transit</option>
+                <option value="hotel">Hotel / Commercial Package</option>
+                <option value="business">General MSME Package</option>
+              </select>
+            </label>
+            <label>Base rate (%)<input id="smeBaseRate" type="number" step="0.01" value="0.25" /></label>
+            <label>Construction type
+              <select id="smeConstruction">
+                <option value="nonCombustible">Non-combustible</option>
+                <option value="mixed">Mixed</option>
+                <option value="combustible">Combustible</option>
+              </select>
+            </label>
+            <label>Occupancy / trade risk
+              <select id="smeOccupancy">
+                <option value="low">Low risk (IT/office)</option>
+                <option value="medium">Medium risk (retail / service)</option>
+                <option value="high">High risk (manufacturing / chemicals)</option>
+              </select>
+            </label>
+            <label>Safety measures
+              <select id="smeSafety">
+                <option value="advanced">Advanced (sprinklers, alarms, security)</option>
+                <option value="standard">Standard (extinguishers, alarms)</option>
+                <option value="basic">Basic</option>
+              </select>
+            </label>
+            <label>Location risk
+              <select id="smeLocation">
+                <option value="low">Low risk area</option>
+                <option value="medium">Flood / moderate risk</option>
+                <option value="high">High risk / disaster zone</option>
+              </select>
+            </label>
+            <label>Claims history
+              <select id="smeClaims">
+                <option value="zero">Zero claims</option>
+                <option value="few">1-2 claims</option>
+                <option value="many">3+ claims</option>
+              </select>
+            </label>
+            <label>Voluntary deductible
+              <select id="smeDeductible">
+                <option value="low">Low deductible</option>
+                <option value="medium">Medium deductible</option>
+                <option value="high">High deductible</option>
+              </select>
+            </label>
+            <label>Marine cargo factors
+              <select id="smeGoodsType">
+                <option value="normal">Normal / non-fragile</option>
+                <option value="fragile">Fragile</option>
+                <option value="hazardous">Hazardous</option>
+              </select>
+            </label>
+            <label>Transit mode
+              <select id="smeTransitMode">
+                <option value="road">Road</option>
+                <option value="rail">Rail</option>
+                <option value="sea">Sea</option>
+                <option value="air">Air</option>
+              </select>
+            </label>
+            <label>Route risk
+              <select id="smeRouteRisk">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+            <label>Packaging quality
+              <select id="smePackaging">
+                <option value="premium">Premium</option>
+                <option value="standard">Standard</option>
+                <option value="basic">Basic</option>
+              </select>
+            </label>
+            <label>Public liability exposure
+              <select id="smePublicLiability">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+            <label>Footfall / customer density
+              <select id="smeFootfall">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+            <label>Equipment exposure
+              <select id="smeEquipment">
+                <option value="new">New / well-maintained</option>
+                <option value="aged">Aged / heavy use</option>
+              </select>
+            </label>
+            <label>Expected BI days<input id="smeBIDays" type="number" placeholder="e.g., 30" /></label>
+            <label>Discount (%)<input id="smeDiscount" type="number" step="0.1" value="0" /></label>
+            <label>Minimum premium (₹)<input id="smeMinPremium" type="number" step="1" value="5000" /></label>
+            <label>Payment frequency
+              <select id="smeFrequency">
+                <option value="annual">Annual</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </label>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
+              <button id="learnSmeFactor" class="btn">Learn & Apply Factor</button>
+              <div style="flex:1"><small>Computed risk factor: <strong id="smeFactorDisplay">-</strong></small></div>
+            </div>
+            <div class="form-actions"><button id="smeCalcBtn" class="btn primary">Estimate MSME Premium</button></div>
+          </div>
+          <div class="calc-right">
+            <div class="result">
+              <p><strong>Estimated premium:</strong> <span id="smeResult">-</span></p>
+              <div id="smeBreakdown" style="margin-top:8px;font-size:13px"></div>
+              <p class="note">Uses sum insured, risk factors, claims history, deductible, and policy type inputs.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="panel">
+        <h2>Contact</h2>
+        <p>Office: OPP. BACHAT BHAWAN, A-BLOCK, RANJIT AVENUE, AMRITSAR.143001, PUNJAB</p>
+        <p>Phones: 9569611375, 9988954361</p>
+        <p>Email: adv.raghu.vaid@gmail.com</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>© DMPR TRADERS</div>
+      <div class="domain">Domain: dmprtraders.ai (placeholder)</div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="script1.js"></script>
+</body>
+</html>
+
+  

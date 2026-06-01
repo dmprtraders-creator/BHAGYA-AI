@@ -1,0 +1,22 @@
+﻿class Assistant:
+    def __init__(self):
+        self.hello_string = "Hello, I am BHAGYA AI"
+
+    def respond(self, command):
+        # Clean up the input so checking is easy
+        cmd_clean = command.lower()
+        
+        if "hello" in cmd_clean or "hi" in cmd_clean:
+            print(self.hello_string)
+            
+        elif "website" in cmd_clean:
+            print("I can help you plan a website! What kind of website do you want to build?")
+            
+        else:
+            print("I am listening...")
+
+ai = Assistant()
+
+while True:
+    cmd = input("command: ")
+    ai.respond(cmd)

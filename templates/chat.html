@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BHAGYA AI Assistant</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #202123;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: auto;
+            padding-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #chat-box {
+            height: 500px;
+            overflow-y: auto;
+            border: 1px solid #444;
+            padding: 15px;
+            background: #343541;
+            border-radius: 10px;
+        }
+
+        .user {
+            background: #0b93f6;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: right;
+        }
+
+        .ai {
+            background: #444654;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .input-area {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #message {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>BHAGYA AI Assistant</h1>
+
+    <div id="chat-box"></div>
+
+    <div class="input-area">
+
+        <input
+            type="text"
+            id="message"
+            placeholder="Type your message..."
+        >
+
+        <button onclick="sendMessage()">
+            Send
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+async function sendMessage() {
+
+    const input =
+        document.getElementById("message");
+
+    const msg =
+        input.value.trim();
+
+    if (!msg) return;
+
+    const chatBox =
+        document.getElementById("chat-box");
+
+    chatBox.innerHTML +=
+        `<div class="user">${msg}</div>`;
+
+    input.value = "";
+
+    chatBox.scrollTop =
+        chatBox.scrollHeight;
+
+    try {
+
+        const response =
+            await fetch("/chat", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    message: msg
+                })
+
+            });
+
+        const data =
+            await response.json();
+
+        chatBox.innerHTML +=
+            `<div class="ai">${data.response}</div>`;
+
+        chatBox.scrollTop =
+            chatBox.scrollHeight;
+
+    }
+
+    catch(error) {
+
+        chatBox.innerHTML +=
+            `<div class="ai">
+                Error: ${error}
+             </div>`;
+    }
+}
+
+document
+    .getElementById("message")
+    .addEventListener("keypress", function(e){
+
+        if(e.key === "Enter") {
+            sendMessage();
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

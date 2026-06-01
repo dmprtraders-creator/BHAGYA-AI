@@ -1,0 +1,17 @@
+      
+        {
+   =         "name": "Python Debugger: Current File with Arguments",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+        "args": "${command:pickArgs}",
+        "configurations": [
+
+        ]
+        }
+python bhagya.py --input data.txt --verbose
+python BHAGYA.pyhi bhagya
+hi
+
+

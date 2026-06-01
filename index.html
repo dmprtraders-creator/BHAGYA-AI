@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeting App - Welcome!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+            animation: slideUp 0.6s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        input:focus {
+            border-color: #764ba2;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        .greeting-message {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .greeting-message.show {
+            display: block;
+        }
+
+        .greeting-message.meera {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+        }
+
+        .greeting-message.pawan {
+            background: linear-gradient(135deg, #ffa500 0%, #ff6347 100%);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3);
+        }
+
+        .greeting-message p {
+            margin-bottom: 10px;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .emoji {
+            font-size: 50px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: bounce 0.6s ease-out;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(10px);
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .hint {
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        #fireworksContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .firework {
+            position: fixed;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+        }
+
+        /* Confetti styles */
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            width: 10px;
+            height: 10px;
+        }
+
+        .confetti-piece {
+            display: inline-block;
+        }
+
+        #animalContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        #superheroContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        .animal-emoji {
+            position: fixed;
+            font-size: 60px;
+            animation: animal-bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes animal-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .superhero-text {
+            position: fixed;
+            font-size: 48px;
+            font-weight: bold;
+            font-style: italic;
+            text-shadow: 3px 3px 0 #ff0000, 6px 6px 0 #ffff00;
+            animation: hero-zoom 0.6s ease-out;
+        }
+
+        @keyframes hero-zoom {
+            0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        .rhyme-text {
+            position: fixed;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            animation: rhyme-float 3s ease-out forwards;
+        }
+
+        @keyframes rhyme-float {
+            0% { 
+                transform: translateY(0) translateX(0); 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-100px) translateX(30px); 
+                opacity: 0;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <h1>👋 Welcome!</h1>
+        <div class="input-group">
+            <input 
+                type="text" 
+                id="nameInput" 
+                placeholder="Type your name here..." 
+                autocomplete="off"
+            >
+        </div>
+        
+        <div class="greeting-message" id="greetingMessage">
+            <div class="emoji" id="emoji"></div>
+            <p id="message"></p>
+        </div>
+
+        <p class="hint">✨ Try typing "Meera Sharma", "Pawan Kumar Vaid", "Prashiv Vaid", or "Daivik Vaid" ✨</p>
+    </div>
+
+    <div id="fireworksContainer"></div>
+    <div id="confettiContainer"></div>
+    <div id="animalContainer"></div>
+    <div id="superheroContainer"></div>
+
+    <script>
+        const nameInput = document.getElementById('nameInput');
+        const greetingMessage = document.getElementById('greetingMessage');
+        const emoji = document.getElementById('emoji');
+        const message = document.getElementById('message');
+        const fireworksContainer = document.getElementById('fireworksContainer');
+        const confettiContainer = document.getElementById('confettiContainer');
+
+        // Enhanced sound effect function with better quality
+        function playSound(type) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                if (type === 'fireworks') {
+                    // Fireworks sound - burst effect with multiple frequencies
+                    const now = audioContext.currentTime;
+                    for (let i = 0; i < 5; i++) {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(300 + i * 150, now);
+                        osc.frequency.exponentialRampToValueAtTime(50, now + 0.15);
+                        
+                        gain.gain.setValueAtTime(0.4, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                        
+                        osc.start(now + i * 0.08);
+                        osc.stop(now + 0.15 + i * 0.08);
+                    }
+                } else if (type === 'confetti') {
+                    // Confetti sound - cheerful chiming sequence
+                    const notes = [800, 1000, 1200, 1400];
+                    notes.forEach((freq, idx) => {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, audioContext.currentTime + idx * 0.1);
+                        gain.gain.setValueAtTime(0.25, audioContext.currentTime + idx * 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + idx * 0.1 + 0.2);
+                        
+                        osc.start(audioContext.currentTime + idx * 0.1);
+                        osc.stop(audioContext.currentTime + idx * 0.1 + 0.2);
+                    });
+                }
+            } catch (e) {
+                console.log('Audio context not available');
+            }
+        }
+
+        // Play complete romantic songs with multiple verses
+        function playCompleteSong(type) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                if (type === 'meera-complete') {
+                    // Complete romantic love song for Meera Raghuvaid
+                    // Structured like a real song: Intro + Verse1 + Verse2 + Chorus + Bridge + Verse3 + Chorus + Outro
+                    
+                    const song = [
+                        // INTRO - Soft, dreamy beginning (Piano-like)
+                        { freq: 261.63, duration: 0.6 },  // C - Intro start
+                        { freq: 293.66, duration: 0.6 },  // D
+                        { freq: 329.63, duration: 0.6 },  // E
+                        { freq: 349.23, duration: 0.8 },  // F - Intro end
+                        
+                        // VERSE 1 - Story telling (Soft vocals)
+                        { freq: 392.00, duration: 0.4 },  // G
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 493.88, duration: 0.6 },  // B
+                        { freq: 523.25, duration: 0.4 },  // C (high)
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 440.00, duration: 0.6 },  // A
+                        { freq: 392.00, duration: 0.4 },  // G
+                        { freq: 349.23, duration: 0.4 },  // F
+                        { freq: 329.63, duration: 0.8 },  // E - Verse 1 end
+                        
+                        // PRE-CHORUS - Building energy
+                        { freq: 349.23, duration: 0.4 },  // F
+                        { freq: 392.00, duration: 0.4 },  // G
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 493.88, duration: 0.6 },  // B
+                        { freq: 523.25, duration: 0.8 },  // C - Pre-chorus peak
+                        
+                        // CHORUS 1 - Main hook (Strong, emotional)
+                        { freq: 523.25, duration: 0.5 },  // C - Chorus start
+                        { freq: 523.25, duration: 0.5 },  // C
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 523.25, duration: 1.0 },  // C - Long note (main hook)
+                        { freq: 440.00, duration: 0.5 },  // A
+                        { freq: 392.00, duration: 0.5 },  // G
+                        { freq: 440.00, duration: 0.5 },  // A
+                        { freq: 523.25, duration: 1.2 },  // C - Extended hook
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 440.00, duration: 0.8 },  // A - Chorus end
+                        
+                        // VERSE 2 - Deeper story (Building intensity)
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 523.25, duration: 0.6 },  // C
+                        { freq: 587.33, duration: 0.4 },  // D (very high)
+                        { freq: 523.25, duration: 0.4 },  // C
+                        { freq: 493.88, duration: 0.6 },  // B
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 392.00, duration: 0.8 },  // G - Verse 2 end
+                        
+                        // PRE-CHORUS 2 - Building again
+                        { freq: 392.00, duration: 0.4 },  // G
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 523.25, duration: 0.6 },  // C
+                        { freq: 587.33, duration: 0.8 },  // D - Pre-chorus 2 peak
+                        
+                        // CHORUS 2 - Main hook repeated (Even more emotional)
+                        { freq: 587.33, duration: 0.5 },  // D - Chorus 2 start (higher key)
+                        { freq: 587.33, duration: 0.5 },  // D
+                        { freq: 523.25, duration: 0.4 },  // C
+                        { freq: 587.33, duration: 1.0 },  // D - Long emotional note
+                        { freq: 523.25, duration: 0.5 },  // C
+                        { freq: 493.88, duration: 0.5 },  // B
+                        { freq: 523.25, duration: 0.5 },  // C
+                        { freq: 587.33, duration: 1.2 },  // D - Extended emotion
+                        { freq: 523.25, duration: 0.4 },  // C
+                        { freq: 493.88, duration: 0.8 },  // B - Chorus 2 end
+                        
+                        // BRIDGE - Soft moment (Emotional depth)
+                        { freq: 392.00, duration: 0.6 },  // G - Bridge intro
+                        { freq: 349.23, duration: 0.6 },  // F
+                        { freq: 392.00, duration: 0.6 },  // G
+                        { freq: 440.00, duration: 0.8 },  // A - Bridge middle
+                        { freq: 440.00, duration: 0.6 },  // A
+                        { freq: 493.88, duration: 0.6 },  // B
+                        { freq: 523.25, duration: 0.6 },  // C
+                        { freq: 587.33, duration: 1.0 },  // D - Bridge peak
+                        { freq: 523.25, duration: 0.6 },  // C
+                        { freq: 493.88, duration: 0.6 },  // B
+                        { freq: 440.00, duration: 0.8 },  // A - Bridge end
+                        
+                        // VERSE 3 - Final story (Passionate, climactic)
+                        { freq: 523.25, duration: 0.4 },  // C
+                        { freq: 587.33, duration: 0.4 },  // D
+                        { freq: 659.25, duration: 0.6 },  // E (very high)
+                        { freq: 587.33, duration: 0.4 },  // D
+                        { freq: 523.25, duration: 0.4 },  // C
+                        { freq: 493.88, duration: 0.6 },  // B
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 392.00, duration: 0.8 },  // G - Verse 3 end
+                        
+                        // PRE-CHORUS 3 - Final build
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 523.25, duration: 0.4 },  // C
+                        { freq: 587.33, duration: 0.6 },  // D
+                        { freq: 659.25, duration: 0.8 },  // E - Pre-chorus 3 peak
+                        
+                        // FINAL CHORUS - Climactic (Most emotional)
+                        { freq: 659.25, duration: 0.5 },  // E - Final chorus start
+                        { freq: 659.25, duration: 0.5 },  // E
+                        { freq: 587.33, duration: 0.4 },  // D
+                        { freq: 659.25, duration: 1.0 },  // E - Long climactic note
+                        { freq: 587.33, duration: 0.5 },  // D
+                        { freq: 523.25, duration: 0.5 },  // C
+                        { freq: 587.33, duration: 0.5 },  // D
+                        { freq: 659.25, duration: 1.2 },  // E - Extended climax
+                        { freq: 587.33, duration: 0.4 },  // D
+                        { freq: 523.25, duration: 0.8 },  // C
+                        { freq: 587.33, duration: 1.0 },  // D - Final chorus end
+                        
+                        // OUTRO - Beautiful fade out (Gentle ending)
+                        { freq: 523.25, duration: 0.6 },  // C - Outro start
+                        { freq: 493.88, duration: 0.6 },  // B
+                        { freq: 440.00, duration: 0.6 },  // A
+                        { freq: 392.00, duration: 0.8 },  // G
+                        { freq: 349.23, duration: 0.6 },  // F
+                        { freq: 329.63, duration: 0.6 },  // E
+                        { freq: 293.66, duration: 0.8 },  // D
+                        { freq: 261.63, duration: 1.2 },  // C - Very soft ending
+                        { freq: 293.66, duration: 0.6 },  // D
+                        { freq: 329.63, duration: 0.8 },  // E
+                        { freq: 349.23, duration: 1.5 },  // F - Final romantic note
+                    ];
+                    
+                    let startTime = audioContext.currentTime;
+                    song.forEach(note => {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(note.freq, startTime);
+                        gain.gain.setValueAtTime(0.3, startTime);
+                        gain.gain.exponentialRampToValueAtTime(0.01, startTime + note.duration);
+                        
+                        osc.start(startTime);
+                        osc.stop(startTime + note.duration);
+                        
+                        startTime += note.duration;
+                    });
+                }
+                else if (type === 'meera-titanic') {
+                    // "My Heart Will Go On" - Titanic Song
+                    // This is the iconic theme with recognizable melody
+                    
+                    const titanicMelody = [
+                        // INTRO - Soft whistle-like beginning
+                        { freq: 349.23, duration: 0.4 },  // F
+                        { freq: 392.00, duration: 0.4 },  // G
+                        { freq: 440.00, duration: 0.8 },  // A - Hold
+                        
+                        // OPENING THEME - The iconic melody
+                        { freq: 392.00, duration: 0.5 },  // G
+                        { freq: 440.00, duration: 0.5 },  // A
+                        { freq: 523.25, duration: 1.0 },  // C - Long beautiful note
+                        { freq: 587.33, duration: 0.5 },  // D
+                        { freq: 523.25, duration: 0.5 },  // C
+                        { freq: 440.00, duration: 1.0 },  // A - Hold
+                        { freq: 392.00, duration: 0.5 },  // G
+                        { freq: 349.23, duration: 0.5 },  // F
+                        { freq: 329.63, duration: 1.0 },  // E
+                        
+                        // VERSE 1 - Soft, emotional
+                        { freq: 349.23, duration: 0.4 },  // F
+                        { freq: 392.00, duration: 0.4 },  // G
+                        { freq: 440.00, duration: 0.6 },  // A
+                        { freq: 523.25, duration: 0.4 },  // C
+                        { freq: 587.33, duration: 0.4 },  // D
+                        { freq: 523.25, duration: 0.6 },  // C
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 392.00, duration: 0.8 },  // G
+                        
+                        // CHORUS - "My heart will go on" theme
+                        { freq: 587.33, duration: 0.5 },  // D
+                        { freq: 659.25, duration: 0.5 },  // E
+                        { freq: 740.00, duration: 1.0 },  // F# - Peak
+                        { freq: 659.25, duration: 0.5 },  // E
+                        { freq: 587.33, duration: 0.5 },  // D
+                        { freq: 523.25, duration: 0.8 },  // C
+                        { freq: 587.33, duration: 0.4 },  // D
+                        { freq: 659.25, duration: 1.0 },  // E - Long emotional
+                        { freq: 587.33, duration: 0.5 },  // D
+                        { freq: 523.25, duration: 0.8 },  // C
+                        
+                        // VERSE 2 - Building intensity
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 523.25, duration: 0.6 },  // C
+                        { freq: 587.33, duration: 0.4 },  // D
+                        { freq: 659.25, duration: 0.4 },  // E
+                        { freq: 587.33, duration: 0.6 },  // D
+                        { freq: 523.25, duration: 0.4 },  // C
+                        { freq: 440.00, duration: 0.8 },  // A
+                        
+                        // CHORUS 2 - Repeat with more passion
+                        { freq: 659.25, duration: 0.5 },  // E
+                        { freq: 740.00, duration: 0.5 },  // F#
+                        { freq: 830.61, duration: 1.0 },  // G# - Higher peak
+                        { freq: 740.00, duration: 0.5 },  // F#
+                        { freq: 659.25, duration: 0.5 },  // E
+                        { freq: 587.33, duration: 0.8 },  // D
+                        { freq: 659.25, duration: 0.4 },  // E
+                        { freq: 740.00, duration: 1.0 },  // F# - Extended
+                        { freq: 659.25, duration: 0.5 },  // E
+                        { freq: 587.33, duration: 0.8 },  // D
+                        
+                        // BRIDGE - Soft strings feel
+                        { freq: 523.25, duration: 0.6 },  // C
+                        { freq: 587.33, duration: 0.6 },  // D
+                        { freq: 659.25, duration: 0.6 },  // E
+                        { freq: 587.33, duration: 0.8 },  // D
+                        { freq: 523.25, duration: 0.6 },  // C
+                        { freq: 440.00, duration: 0.6 },  // A
+                        { freq: 392.00, duration: 1.0 },  // G
+                        
+                        // FINAL CHORUS - Climactic, emotional
+                        { freq: 740.00, duration: 0.5 },  // F#
+                        { freq: 830.61, duration: 0.5 },  // G#
+                        { freq: 923.99, duration: 1.0 },  // A - Highest peak
+                        { freq: 830.61, duration: 0.5 },  // G#
+                        { freq: 740.00, duration: 0.5 },  // F#
+                        { freq: 659.25, duration: 0.8 },  // E
+                        { freq: 740.00, duration: 0.4 },  // F#
+                        { freq: 830.61, duration: 1.0 },  // G# - Extended emotional
+                        { freq: 740.00, duration: 0.5 },  // F#
+                        { freq: 659.25, duration: 0.8 },  // E
+                        { freq: 587.33, duration: 1.0 },  // D
+                        
+                        // OUTRO - Fade out beautifully
+                        { freq: 523.25, duration: 0.6 },  // C
+                        { freq: 587.33, duration: 0.6 },  // D
+                        { freq: 523.25, duration: 0.6 },  // C
+                        { freq: 440.00, duration: 0.8 },  // A
+                        { freq: 392.00, duration: 0.6 },  // G
+                        { freq: 349.23, duration: 0.6 },  // F
+                        { freq: 329.63, duration: 0.8 },  // E
+                        { freq: 293.66, duration: 0.6 },  // D
+                        { freq: 261.63, duration: 1.5 },  // C - Final note
+                    ];
+                    
+                    let startTime = audioContext.currentTime;
+                    titanicMelody.forEach(note => {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(note.freq, startTime);
+                        gain.gain.setValueAtTime(0.3, startTime);
+                        gain.gain.exponentialRampToValueAtTime(0.01, startTime + note.duration);
+                        
+                        osc.start(startTime);
+                        osc.stop(startTime + note.duration);
+                        
+                        startTime += note.duration;
+                    });
+                }
+            } catch (e) {
+                console.log('Audio context not available');
+            }
+        }
+
+        // Play relationship-based music
+        function playRelationshipMusic(type) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                if (type === 'pawan') {
+                    // Father's theme - Strong, majestic melody (Heroic tune)
+                    const melody = [
+                        { freq: 261.63, duration: 0.3 },  // C
+                        { freq: 329.63, duration: 0.3 },  // E
+                        { freq: 392.00, duration: 0.3 },  // G
+                        { freq: 523.25, duration: 0.6 },  // C (high)
+                        { freq: 392.00, duration: 0.3 },  // G
+                        { freq: 329.63, duration: 0.3 },  // E
+                        { freq: 261.63, duration: 0.6 },  // C
+                    ];
+                    
+                    let startTime = audioContext.currentTime;
+                    melody.forEach(note => {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(note.freq, startTime);
+                        gain.gain.setValueAtTime(0.3, startTime);
+                        gain.gain.exponentialRampToValueAtTime(0.01, startTime + note.duration);
+                        
+                        osc.start(startTime);
+                        osc.stop(startTime + note.duration);
+                        
+                        startTime += note.duration;
+                    });
+                } 
+                else if (type === 'meera') {
+                    // Wife's romantic theme - Beautiful love song melody
+                    // This is a romantic progression inspired by classic love songs
+                    const melody = [
+                        { freq: 329.63, duration: 0.5 },  // E - Start
+                        { freq: 392.00, duration: 0.5 },  // G
+                        { freq: 523.25, duration: 0.75 }, // C (high) - Long note
+                        { freq: 493.88, duration: 0.5 },  // B
+                        { freq: 440.00, duration: 0.5 },  // A
+                        { freq: 392.00, duration: 0.75 }, // G - Long
+                        { freq: 349.23, duration: 0.5 },  // F
+                        { freq: 329.63, duration: 0.5 },  // E
+                        { freq: 293.66, duration: 0.5 },  // D
+                        { freq: 349.23, duration: 0.5 },  // F
+                        { freq: 392.00, duration: 0.5 },  // G
+                        { freq: 440.00, duration: 1.0 },  // A - Beautiful long note
+                        { freq: 523.25, duration: 0.75 }, // C - Peak
+                        { freq: 440.00, duration: 0.5 },  // A
+                        { freq: 392.00, duration: 1.0 },  // G - Finale
+                    ];
+                    
+                    let startTime = audioContext.currentTime;
+                    melody.forEach(note => {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(note.freq, startTime);
+                        gain.gain.setValueAtTime(0.3, startTime);
+                        gain.gain.exponentialRampToValueAtTime(0.01, startTime + note.duration);
+                        
+                        osc.start(startTime);
+                        osc.stop(startTime + note.duration);
+                        
+                        startTime += note.duration;
+                    });
+                }
+                else if (type === 'meera-full') {
+                    // Extended romantic song for Meera Raghuvaid - Much longer version
+                    // A complete romantic ballad inspired by "Endless Love", "Perfect", etc.
+                    const fullSong = [
+                        // Verse 1 - Soft beginning
+                        { freq: 329.63, duration: 0.4 },  // E
+                        { freq: 349.23, duration: 0.4 },  // F
+                        { freq: 392.00, duration: 0.6 },  // G
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 440.00, duration: 0.4 },  // A (repeat)
+                        { freq: 392.00, duration: 0.6 },  // G
+                        { freq: 349.23, duration: 0.4 },  // F
+                        { freq: 329.63, duration: 0.4 },  // E
+                        { freq: 329.63, duration: 0.8 },  // E - Hold
+                        
+                        // Verse 2 - Building emotion
+                        { freq: 349.23, duration: 0.4 },  // F
+                        { freq: 392.00, duration: 0.4 },  // G
+                        { freq: 440.00, duration: 0.6 },  // A
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 523.25, duration: 0.4 },  // C (high)
+                        { freq: 493.88, duration: 0.6 },  // B
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 392.00, duration: 0.8 },  // G - Hold
+                        
+                        // Chorus - Peak emotion
+                        { freq: 523.25, duration: 0.5 },  // C - Peak
+                        { freq: 493.88, duration: 0.5 },  // B
+                        { freq: 523.25, duration: 0.8 },  // C - Long hold (emotional peak)
+                        { freq: 440.00, duration: 0.5 },  // A
+                        { freq: 392.00, duration: 0.5 },  // G
+                        { freq: 440.00, duration: 0.5 },  // A
+                        { freq: 523.25, duration: 1.0 },  // C - Extended hold
+                        
+                        // Bridge - Emotional descent
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 392.00, duration: 0.6 },  // G
+                        { freq: 349.23, duration: 0.4 },  // F
+                        { freq: 392.00, duration: 0.4 },  // G
+                        { freq: 440.00, duration: 0.6 },  // A
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 523.25, duration: 0.8 },  // C - Build again
+                        
+                        // Verse 3 - Deeper emotion
+                        { freq: 523.25, duration: 0.4 },  // C
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 440.00, duration: 0.6 },  // A
+                        { freq: 392.00, duration: 0.4 },  // G
+                        { freq: 349.23, duration: 0.4 },  // F
+                        { freq: 392.00, duration: 0.6 },  // G
+                        { freq: 440.00, duration: 0.4 },  // A
+                        { freq: 493.88, duration: 0.8 },  // B - Hold
+                        
+                        // Final Chorus - Grand finale
+                        { freq: 523.25, duration: 0.5 },  // C - Peak
+                        { freq: 523.25, duration: 0.5 },  // C - Repeat
+                        { freq: 493.88, duration: 0.4 },  // B
+                        { freq: 523.25, duration: 1.2 },  // C - Very long (emotional climax)
+                        { freq: 440.00, duration: 0.5 },  // A
+                        { freq: 392.00, duration: 0.5 },  // G
+                        { freq: 349.23, duration: 0.5 },  // F
+                        { freq: 329.63, duration: 1.5 },  // E - Long beautiful end
+                        
+                        // Outro - Fade out
+                        { freq: 349.23, duration: 0.4 },  // F
+                        { freq: 329.63, duration: 0.4 },  // E
+                        { freq: 293.66, duration: 0.4 },  // D
+                        { freq: 261.63, duration: 0.8 },  // C (low) - Soft ending
+                        { freq: 293.66, duration: 0.4 },  // D
+                        { freq: 329.63, duration: 0.8 },  // E - Final note
+                        { freq: 349.23, duration: 1.2 },  // F - Very soft ending
+                    ];
+                    
+                    let startTime = audioContext.currentTime;
+                    fullSong.forEach(note => {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(note.freq, startTime);
+                        gain.gain.setValueAtTime(0.3, startTime);
+                        gain.gain.exponentialRampToValueAtTime(0.01, startTime + note.duration);
+                        
+                        osc.start(startTime);
+                        osc.stop(startTime + note.duration);
+                        
+                        startTime += note.duration;
+                    });
+                }
+            } catch (e) {
+                console.log('Audio context not available');
+            }
+        }
+
+        // Animal animation for Prashiv (younger son)
+        function createAnimalAnimation() {
+            const animals = ['🐯', '🦁', '🐻', '🐼', '🦊', '🐰', '🐸'];
+            const animalContainer = document.getElementById('animalContainer');
+            
+            for (let i = 0; i < 12; i++) {
+                setTimeout(() => {
+                    const animal = document.createElement('div');
+                    animal.classList.add('animal-emoji');
+                    const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+                    animal.textContent = randomAnimal;
+                    
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    
+                    animal.style.left = x + 'px';
+                    animal.style.top = y + 'px';
+                    
+                    animalContainer.appendChild(animal);
+                    
+                    setTimeout(() => animal.remove(), 3000);
+                }, i * 200);
+            }
+        }
+
+        // Superhero animation for Prashiv (younger son)
+        function createSuperheroAnimation() {
+            const superheroPhrases = ['POW!', 'BAM!', 'BOOM!', 'ZAP!', 'KABOOM!', 'WHAM!'];
+            const superheroContainer = document.getElementById('superheroContainer');
+            
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const hero = document.createElement('div');
+                    hero.classList.add('superhero-text');
+                    const randomPhrase = superheroPhrases[Math.floor(Math.random() * superheroPhrases.length)];
+                    hero.textContent = randomPhrase;
+                    
+                    const x = Math.random() * (window.innerWidth - 100);
+                    const y = Math.random() * (window.innerHeight - 100);
+                    
+                    hero.style.left = x + 'px';
+                    hero.style.top = y + 'px';
+                    hero.style.color = ['#ff0000', '#ffff00', '#00ff00', '#0000ff'][Math.floor(Math.random() * 4)];
+                    
+                    superheroContainer.appendChild(hero);
+                    
+                    setTimeout(() => hero.remove(), 800);
+                }, i * 150);
+            }
+        }
+
+        // Rhyme animation for Prashiv
+        function createRhymeAnimation() {
+            const rhymes = [
+                '🎵 Brave and Bold 🎵',
+                '💪 Super Strong 💪',
+                '⭐ Shining Star ⭐',
+                '🎯 Amazing Boy 🎯',
+                '🚀 Flying High 🚀'
+            ];
+            const rhymeContainer = document.getElementById('confettiContainer');
+            
+            rhymes.forEach((rhyme, idx) => {
+                setTimeout(() => {
+                    const text = document.createElement('div');
+                    text.classList.add('rhyme-text');
+                    text.textContent = rhyme;
+                    
+                    const x = Math.random() * (window.innerWidth - 200);
+                    const y = window.innerHeight - 100;
+                    
+                    text.style.left = x + 'px';
+                    text.style.top = y + 'px';
+                    text.style.backgroundColor = `hsla(${Math.random() * 360}, 100%, 50%, 0.8)`;
+                    text.style.padding = '10px 20px';
+                    text.style.borderRadius = '20px';
+                    
+                    rhymeContainer.appendChild(text);
+                    
+                    setTimeout(() => text.remove(), 3000);
+                }, idx * 400);
+            });
+        }
+
+        // Elder son celebration for Daivik
+        function createDaikvikCelebration() {
+            playSound('fireworks');
+            playRelationshipMusic('pawan');
+            
+            // Multiple celebration particles
+            const celebrations = Array(80).fill().map(() => ({
+                emoji: ['🌟', '✨', '💎', '👑', '🏆', '⭐', '🎖️', '🥇'][Math.floor(Math.random() * 8)],
+            }));
+            
+            celebrations.forEach((item, idx) => {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    const x = Math.random() * window.innerWidth;
+                    const y = window.innerHeight;
+                    
+                    particle.style.position = 'fixed';
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.fontSize = '40px';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '9998';
+                    particle.textContent = item.emoji;
+                    
+                    let posY = y;
+                    let alpha = 1;
+                    const velocity = 2 + Math.random() * 3;
+                    
+                    const animate = () => {
+                        posY -= velocity;
+                        alpha -= 0.01;
+                        
+                        particle.style.top = posY + 'px';
+                        particle.style.opacity = alpha;
+                        
+                        if (alpha > 0 && posY > 0) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            particle.remove();
+                        }
+                    };
+                    
+                    document.body.appendChild(particle);
+                    animate();
+                }, idx * 30);
+            });
+        }
+
+        // Fireworks function
+        function createFireworks() {
+            playSound('fireworks');
+            playRelationshipMusic('pawan');  // Play father's theme music
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    
+                    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#ff1493'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    let particlesCount = 25 + Math.random() * 25;
+                    
+                    for (let j = 0; j < particlesCount; j++) {
+                        const particle = document.createElement('div');
+                        particle.classList.add('particle');
+                        
+                        const size = 3 + Math.random() * 5;
+                        particle.style.width = size + 'px';
+                        particle.style.height = size + 'px';
+                        particle.style.backgroundColor = color;
+                        particle.style.borderRadius = '50%';
+                        particle.style.left = x + 'px';
+                        particle.style.top = y + 'px';
+                        particle.style.boxShadow = `0 0 ${size * 3}px ${color}`;
+                        
+                        const angle = (j / particlesCount) * Math.PI * 2;
+                        const velocity = 5 + Math.random() * 8;
+                        const vx = Math.cos(angle) * velocity;
+                        const vy = Math.sin(angle) * velocity;
+                        
+                        let posX = x;
+                        let posY = y;
+                        let velX = vx;
+                        let velY = vy;
+                        let alpha = 1;
+                        
+                        const animate = () => {
+                            posX += velX;
+                            posY += velY;
+                            velY += 0.15;
+                            alpha -= 0.012;
+                            
+                            particle.style.left = posX + 'px';
+                            particle.style.top = posY + 'px';
+                            particle.style.opacity = alpha;
+                            
+                            if (alpha > 0) {
+                                requestAnimationFrame(animate);
+                            } else {
+                                particle.remove();
+                            }
+                        };
+                        
+                        fireworksContainer.appendChild(particle);
+                        animate();
+                    }
+                }, i * 40);
+            }
+        }
+
+        // Confetti function
+        function createConfetti() {
+            playSound('confetti');
+            playRelationshipMusic('meera');  // Play wife's theme music
+            const confettiPieces = 100;
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE'];
+            
+            for (let i = 0; i < confettiPieces; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                const size = 8 + Math.random() * 8;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const x = Math.random() * window.innerWidth;
+                const y = -10;
+                const rotation = Math.random() * 360;
+                const velocity = 3 + Math.random() * 5;
+                const horizontalVelocity = (Math.random() - 0.5) * 4;
+                
+                confetti.style.left = x + 'px';
+                confetti.style.top = y + 'px';
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+                confetti.style.backgroundColor = color;
+                confetti.style.borderRadius = '50%';
+                confetti.style.opacity = '1';
+                
+                let posX = x;
+                let posY = y;
+                let velY = velocity;
+                let velX = horizontalVelocity;
+                let rot = rotation;
+                let alpha = 1;
+                
+                const animate = () => {
+                    posY += velY;
+                    posX += velX;
+                    velY += 0.08;
+                    rot += 5;
+                    alpha -= 0.008;
+                    
+                    confetti.style.left = posX + 'px';
+                    confetti.style.top = posY + 'px';
+                    confetti.style.transform = `rotate(${rot}deg)`;
+                    confetti.style.opacity = alpha;
+                    
+                    if (posY < window.innerHeight && alpha > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        confetti.remove();
+                    }
+                };
+                
+                confettiContainer.appendChild(confetti);
+                animate();
+            }
+        }
+
+        nameInput.addEventListener('input', function() {
+            const inputValue = this.value.trim().toLowerCase();
+            const meeraName = 'meera sharma';
+            const meeraFullName = 'meera raghuvaid';
+            const pavanName = 'pawan kumar vaid';
+            const prashivName = 'prashiv vaid';
+            const daivikName = 'daivik vaid';
+
+            // Check if the input matches Pawan's name
+            if (inputValue === pavanName) {
+                createFireworks();
+                greetingMessage.classList.add('show', 'pawan');
+                greetingMessage.classList.remove('meera');
+                emoji.textContent = '🎆';
+                message.innerHTML = `<p>🎉 Welcome Pawan Kumar Vaid! 👋</p>
+                                     <p>Great to see you, Dad! 🎊</p>
+                                     <p>Enjoy the fireworks! 🎆✨</p>`;
+            }
+            // Check if the input matches Meera's name
+            else if (inputValue === meeraName) {
+                createConfetti();
+                greetingMessage.classList.add('show', 'meera');
+                greetingMessage.classList.remove('pawan');
+                emoji.textContent = '💕';
+                message.innerHTML = `<p>✨ Hi Meera Sharma! 👋</p>
+                                     <p>Welcome, my love! 🌟</p>
+                                     <p>Hope you have an amazing day! 💫</p>`;
+            }
+            // Check if the input matches Meera's full name
+            else if (inputValue === meeraFullName) {
+                createConfetti();
+                playCompleteSong('meera-titanic');  // Play Titanic song
+                greetingMessage.classList.add('show', 'meera');
+                greetingMessage.classList.remove('pawan');
+                emoji.textContent = '💕';
+                message.innerHTML = `<p>✨ Hi Meera Raghuvaid! 👰</p>
+                                     <p>Welcome, my beautiful love! 🌹</p>
+                                     <p>You make life so beautiful! 💖</p>
+                                     <p>🎵 "My Heart Will Go On" 🎵</p>`;
+            }
+            // Check if the input matches Prashiv's name (younger son)
+            else if (inputValue === prashivName) {
+                createAnimalAnimation();
+                createSuperheroAnimation();
+                createRhymeAnimation();
+                greetingMessage.classList.add('show', 'meera');
+                greetingMessage.classList.remove('pawan');
+                emoji.textContent = '🦸';
+                message.innerHTML = `<p>🎯 Welcome Prashiv Vaid! 🦸</p>
+                                     <p>Super Amazing Little Hero! 💪</p>
+                                     <p>Brave, Bold and Brilliant! ⭐</p>`;
+            }
+            // Check if the input matches Daivik's name (elder son)
+            else if (inputValue === daivikName) {
+                createDaikvikCelebration();
+                greetingMessage.classList.add('show', 'pawan');
+                greetingMessage.classList.remove('meera');
+                emoji.textContent = '👑';
+                message.innerHTML = `<p>🌟 Welcome Daivik Vaid! 👑</p>
+                                     <p>Smart and Talented Young Man! 💎</p>
+                                     <p>Future Champion! 🏆</p>`;
+            }
+            else if (inputValue.length > 0) {
+                // Optional: greet other people too
+                greetingMessage.classList.add('show');
+                greetingMessage.classList.remove('meera', 'pawan');
+                emoji.textContent = '👋';
+                message.innerHTML = `<p>Hello, ${this.value}!</p>
+                                     <p>Nice to meet you! 😊</p>`;
+            } else {
+                greetingMessage.classList.remove('show', 'meera', 'pawan');
+            }
+        });
+
+        // Focus on input when page loads
+        window.addEventListener('load', function() {
+            nameInput.focus();
+        });
+    </script>
+</body>
+</html>

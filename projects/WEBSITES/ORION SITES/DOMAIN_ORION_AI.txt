@@ -1,0 +1,14 @@
+Domain note: orion.ai
+
+Important: I cannot register or provision domains from this environment. To claim "orion.ai" you must use a domain registrar or hosting provider.
+
+Steps to check and register:
+1. Visit a registrar (Namecheap, GoDaddy, Google Domains, Cloudflare) and search "orion.ai" for availability.
+2. If available, follow the registrar's purchase and checkout flow to register the domain.
+3. After purchase, configure DNS records to point the domain to your hosting provider (A, CNAME, or ALIAS records depending on host).
+
+Quick DNS examples:
+- Netlify: add an A record (or use Netlify's nameservers) and add a `CNAME` file with the domain at the site root.
+- GitHub Pages: set A records to GitHub Pages IPs and add a `CNAME` file containing the domain at the repository root.
+
+If you'd like, provide the registrar and I'll generate exact DNS records and a deploy plan.

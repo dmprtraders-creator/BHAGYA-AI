@@ -1,0 +1,7 @@
+Domain note: dmprtraders.ai
+
+I cannot register domains from this environment. To claim "dmprtraders.ai":
+1. Check availability at a registrar (Namecheap, GoDaddy, Cloudflare, Google Domains).
+2. If available, purchase and configure DNS to point to your host. Use the included `CNAME` file when deploying to GitHub Pages or similar static hosts.
+
+If you want, tell me which host you prefer (Netlify, GitHub Pages, Vercel) and I'll generate precise deployment steps.
